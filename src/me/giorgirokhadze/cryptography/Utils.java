@@ -1,5 +1,7 @@
 package me.giorgirokhadze.cryptography;
 
+import java.util.Arrays;
+
 import static me.giorgirokhadze.cryptography.SBox.S;
 
 /**
@@ -10,17 +12,16 @@ import static me.giorgirokhadze.cryptography.SBox.S;
 class Utils {
 
     static byte[] subWord(byte[] bytes) {
-        byte[] result = new byte[bytes.length];
+        byte[] result = Arrays.copyOf(bytes, bytes.length);
         for (int i = 0; i < result.length; i++)
             result[i] = (byte) S[result[i] & 0xFF];
         return result;
     }
 
     static byte[] rotWord(byte[] bytes) {
-        byte[] result = new byte[bytes.length];
-        byte temp = bytes[0];
-        result[0] = result[result.length - 1];
-        result[result.length - 1] = temp;
+        byte[] result = Arrays.copyOf(bytes, bytes.length);
+        result[0] = bytes[bytes.length - 1];
+        result[result.length - 1] = bytes[0];
         return result;
     }
 
@@ -32,7 +33,7 @@ class Utils {
     }
 
     static byte[] xor(byte[] a, int b) {
-        byte[] result = new byte[a.length];
+        byte[] result = Arrays.copyOf(a, a.length);
         result[0] ^= b;
         return result;
     }

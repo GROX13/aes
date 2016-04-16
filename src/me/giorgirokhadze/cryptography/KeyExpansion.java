@@ -1,5 +1,6 @@
 package me.giorgirokhadze.cryptography;
 
+import static me.giorgirokhadze.cryptography.Rcon.RCON;
 import static me.giorgirokhadze.cryptography.Utils.*;
 
 /**
@@ -25,7 +26,7 @@ public class KeyExpansion {
 
         for (int i = 4; i < 44; i++)
             result[i] = xor(result[i - 4],
-                    i % 4 == 0 ? xor(subWord(rotWord(result[i - 1])), Rcon.RCON[i / 4]) : result[i - 1]);
+                    i % 4 == 0 ? xor(subWord(rotWord(result[i - 1])), RCON[i / 4]) : result[i - 1]);
 
         return result;
     }
