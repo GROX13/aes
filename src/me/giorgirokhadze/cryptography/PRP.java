@@ -13,7 +13,11 @@ import static me.giorgirokhadze.cryptography.Utils.xor;
  * <p>
  * Created by Giorgi on 4/16/2016.
  */
-public class PRP {
+class PRP {
+
+    static byte[] addRoundKeys(byte[] state, byte[] key) {
+        return xor(state, key);
+    }
 
     static byte[] subBytes(byte[] bytes) {
         byte[] result = new byte[bytes.length];
@@ -51,10 +55,6 @@ public class PRP {
             insert(result, i * 4, doTheStuff(Arrays.copyOfRange(state, i * 4, i * 4 + 4)));
 
         return result;
-    }
-
-    static byte[] addRoundKeys(byte[] state, byte[] key) {
-        return xor(state, key);
     }
 
     private static byte[] doTheStuff(byte[] bytes) {

@@ -19,9 +19,11 @@ class Utils {
     }
 
     static byte[] rotWord(byte[] bytes) {
-        byte[] result = Arrays.copyOf(bytes, bytes.length);
-        result[0] = bytes[bytes.length - 1];
-        result[result.length - 1] = bytes[0];
+        byte[] result = new byte[bytes.length];
+        result[0] = bytes[1];
+        result[1] = bytes[2];
+        result[2] = bytes[3];
+        result[3] = bytes[0];
         return result;
     }
 
@@ -39,7 +41,7 @@ class Utils {
     }
 
     static void insert(byte[] result, int index, byte[] bytes) {
-        System.arraycopy(bytes, 0, result, index, index + bytes.length - index);
+        System.arraycopy(bytes, 0, result, index, bytes.length);
     }
 
 }
