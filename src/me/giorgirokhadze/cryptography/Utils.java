@@ -37,4 +37,9 @@ class Utils {
         result[0] ^= b;
         return result;
     }
+
+    static void insert(byte[] result, int index, byte[] bytes) {
+        System.arraycopy(bytes, 0, result, index, index + bytes.length - index);
+    }
+
 }

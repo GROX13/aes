@@ -2,7 +2,10 @@ package me.giorgirokhadze.cryptography;
 
 import java.util.Arrays;
 
+import static me.giorgirokhadze.cryptography.MixColumns._2;
+import static me.giorgirokhadze.cryptography.MixColumns._3;
 import static me.giorgirokhadze.cryptography.SBox.S;
+import static me.giorgirokhadze.cryptography.Utils.insert;
 import static me.giorgirokhadze.cryptography.Utils.xor;
 
 /**
@@ -12,14 +15,14 @@ import static me.giorgirokhadze.cryptography.Utils.xor;
  */
 public class PRP {
 
-    public byte[] subBytes(byte[] bytes) {
+    static byte[] subBytes(byte[] bytes) {
         byte[] result = new byte[bytes.length];
         for (int i = 0; i < bytes.length; i++)
             result[i] = (byte) S[bytes[i] & 0xFF];
         return result;
     }
 
-    public byte[] shiftRows(byte[] state) {
+    static byte[] shiftRows(byte[] state) {
         byte[] result = Arrays.copyOf(state, state.length);
 
         result[1] = state[5];
@@ -41,12 +44,26 @@ public class PRP {
         return result;
     }
 
-    public void mixColumns() {
+    static byte[] mixColumns(byte[] state) {
+        byte[] result = new byte[state.length];
 
+        for (int i = 0; i < 4; i++)
+            insert(result, i * 4, doTheStuff(Arrays.copyOfRange(state, i * 4, i * 4 + 4)));
+
+        return result;
     }
 
-    public byte[] addRoundKeys(byte[] state, byte[] key) {
+    static byte[] addRoundKeys(byte[] state, byte[] key) {
         return xor(state, key);
+    }
+
+    private static byte[] doTheStuff(byte[] bytes) {
+        byte[] result = new byte[bytes.length];
+        result[0] = (byte) (_2[bytes[0] & 0xFF] ^ _3[bytes[1] & 0xFF] ^ bytes[2] ^ bytes[3]);
+        result[1] = (byte) (bytes[0] ^ _2[bytes[1] & 0xFF] ^ _3[bytes[2] & 0xFF] ^ bytes[3]);
+        result[2] = (byte) (bytes[0] ^ bytes[1] ^ _2[bytes[2] & 0xFF] ^ _3[bytes[3] & 0xFF]);
+        result[3] = (byte) (_3[bytes[0] & 0xFF] ^ bytes[1] ^ bytes[2] ^ _2[bytes[3] & 0xFF]);
+        return result;
     }
 
 }
