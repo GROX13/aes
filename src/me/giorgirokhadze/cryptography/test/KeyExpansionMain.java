@@ -6,12 +6,12 @@ import java.util.Arrays;
 
 class KeyExpansionMain {
 
-    static byte[] keyOne = {
+    private static byte[] keyOne = {
             0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0
     };
 
-    static byte[] keyTwo = {
+    private static byte[] keyTwo = {
             -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1
     };
