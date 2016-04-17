@@ -4,7 +4,7 @@ import me.giorgirokhadze.cryptography.AES;
 
 import java.util.Arrays;
 
-class Main {
+class EncryptMain {
 
     public static void main(String[] args) {
         @SuppressWarnings("SpellCheckingInspection")
