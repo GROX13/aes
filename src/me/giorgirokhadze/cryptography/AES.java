@@ -43,7 +43,7 @@ public class AES {
             insert(result, j * 16, bytes);
         }
 
-        return result;
+        return removePadding(result);
     }
 
     private static byte[] getKey(byte[][] expanded, int i) {
@@ -59,5 +59,14 @@ public class AES {
         return result;
     }
 
+    private static byte[] removePadding(byte[] output) {
+        int index = 0;
+        for (int i = output.length - 1; i >= 0; i--)
+            if (output[i] == -1) {
+                index = i;
+                break;
+            }
+        return Arrays.copyOfRange(output, 0, index);
+    }
 
 }
