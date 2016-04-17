@@ -57,6 +57,21 @@ class PRP {
         return result;
     }
 
+    static byte[] reverseSubBytes(byte[] bytes) {
+
+        return new byte[0];
+    }
+
+    static byte[] reverseShiftRows(byte[] bytes) {
+
+        return new byte[0];
+    }
+
+    static byte[] reverseMixColumns(byte[] bytes) {
+
+        return new byte[0];
+    }
+
     private static byte[] doTheStuff(byte[] bytes) {
         byte[] result = new byte[bytes.length];
         result[0] = (byte) (_2[bytes[0] & 0xFF] ^ _3[bytes[1] & 0xFF] ^ bytes[2] ^ bytes[3]);

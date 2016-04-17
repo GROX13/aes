@@ -19,17 +19,31 @@ public class AES {
         byte[] result = new byte[input.length];
 
         for (int i = 0; i < input.length / 16; i++) {
-            byte[] tmp = addRoundKeys(Arrays.copyOfRange(input, i * 16, i * 16 + 16), getKey(expanded, 0));
+            byte[] bytes = addRoundKeys(Arrays.copyOfRange(input, i * 16, i * 16 + 16), getKey(expanded, 0));
             for (int j = 0; j < 9; j++)
-                tmp = addRoundKeys(mixColumns(shiftRows(subBytes(tmp))), getKey(expanded, j + 1));
-            tmp = addRoundKeys(shiftRows(subBytes(tmp)), getKey(expanded, 10));
-            insert(result, i * 16, tmp);
+                bytes = addRoundKeys(mixColumns(shiftRows(subBytes(bytes))), getKey(expanded, j + 1));
+            bytes = addRoundKeys(shiftRows(subBytes(bytes)), getKey(expanded, 10));
+            insert(result, i * 16, bytes);
         }
         return result;
     }
 
     public static byte[] decrypt(byte[] input, byte[] key) {
-        return new byte[input.length];
+        KeyExpansion expansion = new KeyExpansion(key);
+        byte[][] expanded = expansion.expand();
+        byte[] result = new byte[input.length];
+
+        for (int j = 0; j < input.length / 16; j++) {
+            byte[] bytes = addRoundKeys(Arrays.copyOfRange(input, j * 16, j * 16 + 16), getKey(expanded, 10));
+            bytes = reverseSubBytes(reverseShiftRows(bytes));
+            for (int i = 9; i > 0; i--)
+                bytes = reverseSubBytes(reverseShiftRows(reverseMixColumns(addRoundKeys(bytes, getKey(expanded, i)))));
+
+            bytes = addRoundKeys(bytes, getKey(expanded, 0));
+            insert(result, j * 16, bytes);
+        }
+
+        return result;
     }
 
     private static byte[] getKey(byte[][] expanded, int i) {
