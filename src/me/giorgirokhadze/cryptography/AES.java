@@ -28,15 +28,15 @@ public class AES {
         return result;
     }
 
+    public static byte[] decrypt(byte[] input, byte[] key) {
+        return new byte[input.length];
+    }
+
     private static byte[] getKey(byte[][] expanded, int i) {
         byte[] key = new byte[16];
         for (int j = 0; j < 4; j++)
             System.arraycopy(expanded[4 * i + j], 0, key, 4 * j, 4);
         return key;
-    }
-
-    public static byte[] decrypt(byte[] input, byte[] key) {
-        return new byte[input.length];
     }
 
     private static byte[] fillWithPadding(byte[] input) {
